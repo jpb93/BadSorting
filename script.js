@@ -1,6 +1,27 @@
 
 let canv = document.getElementById("canvas");
 let ctx = canv.getContext("2d");
+let slider = document.getElementById("barSlider");
+let output = document.getElementById('numBars');
+output.innerHTML = slider.value;
+const width = canv.width;
+const height = canv.height;
+let barNumber = slider.value;
+let arr = [];
+let barWidth = width / barNumber;
+let gap = 0;
+let sleepTime = 0;
+
+slider.oninput = function() {
+    output.innerHTML = this.value;
+    barNumber = this.value;
+    barWidth = width / barNumber;
+    arr = [];
+    createArray();
+    update();
+}
+
+
 
 function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
@@ -9,9 +30,8 @@ function shuffle(a) {
     }
     return a;
 }
-let arr = [];
 function createArray(){
-    for (let i = 0; i < 138; i++){
+    for (let i = 0; i < barNumber; i++){
         //arr[i] = Math.floor(Math.random() * Math.floor(300)) + 10;
         arr[i] = i*3 + 1;
     }
@@ -19,14 +39,12 @@ function createArray(){
 
 }
 
-let gap = 5;
-let sleepTime = 0;
 
 
 function update(){
-    gap = 5;
+    gap = 0;
     ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, canv.width, canv.height);
+    ctx.fillRect(0, 0, width, height);
     createBars();
 }
 
@@ -34,8 +52,8 @@ function createBars() {
     for (let i = 0; i < arr.length; i++){
         let barHeight = arr[i];
         ctx.fillStyle = "white";
-        ctx.fillRect(gap, canv.height - barHeight, 4, barHeight);
-        gap += 5;
+        ctx.fillRect(gap, height - barHeight, barWidth, barHeight);
+        gap += barWidth;
     }
 }
 
@@ -91,7 +109,9 @@ async function insertionSort(unsortedArray){
 async function swap(arr, i, j) {
     //gap = 5;
     await sleep(sleepTime);
-   // ctx.fillStyle = "red";
+    // This is garbage
+    indexOne = i;
+    indexTwo = j;
     let temp = arr[i];
     arr[i] = arr[j];
     arr[j] = temp;
@@ -100,6 +120,9 @@ async function swap(arr, i, j) {
 
 async function insertSwap(arr, i, j){
     await sleep(sleepTime);
+    // barf
+    indexOne = i;
+    indexTwo = j;
     arr[i] = arr[j];
     update();
 }
@@ -131,18 +154,23 @@ document.getElementById('reset').addEventListener('click', function() {
     arr = []
     createArray();
     update();
+    resetIndices();
 });
 
 function disableBtns(){
     document.getElementById('bubbleSort').disabled = true;
     document.getElementById('selectionSort').disabled = true;
     document.getElementById('insertionSort').disabled = true;
+    slider.disabled = true;
 }
 
 function enableBtns(){
     document.getElementById('bubbleSort').disabled = false;
     document.getElementById('selectionSort').disabled = false;
     document.getElementById('insertionSort').disabled = false;
+    slider.disabled = false;
 }
+
+
 createArray();
 update();
