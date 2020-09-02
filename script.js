@@ -2,6 +2,8 @@ const canv = document.getElementById("canvas");
 const ctx = canv.getContext("2d");
 const slider = document.getElementById("barSlider");
 const output = document.getElementById('numBars');
+const speedSlider = document.getElementById('speedBar');
+const speedOutput = document.getElementById('barSpeed');
 
 const bubbleSortBtn = document.getElementById('bubbleSort');
 const selectionSortBtn = document.getElementById('selectionSort');
@@ -12,11 +14,13 @@ const width = canv.width;
 const height = canv.height;
 
 output.innerHTML = slider.value;
+speedOutput.innerHTML = speedSlider.value + ' ms';
+
 let barNumber = slider.value;
 let arr = [];
 let barWidth = width / barNumber;
 let gap = 0;
-let sleepTime = 0;
+let sleepTime = speedSlider.value;
 
 slider.oninput = function() {
     output.innerHTML = this.value;
@@ -25,6 +29,12 @@ slider.oninput = function() {
     arr = [];
     createArray();
     update();
+}
+
+speedSlider.oninput = function(){
+    speedOutput.innerHTML = this.value + ' ms';
+    sleepTime = this.value;
+
 }
 
 function isSorted(a) {
@@ -117,11 +127,7 @@ async function insertionSort(unsortedArray){
 }
 
 async function swap(arr, i, j) {
-    //gap = 5;
     await sleep(sleepTime);
-    // This is garbage
-    indexOne = i;
-    indexTwo = j;
     let temp = arr[i];
     arr[i] = arr[j];
     arr[j] = temp;
@@ -130,9 +136,6 @@ async function swap(arr, i, j) {
 
 async function insertSwap(arr, i, j){
     await sleep(sleepTime);
-    // barf
-    indexOne = i;
-    indexTwo = j;
     arr[i] = arr[j];
     update();
 }
@@ -145,7 +148,6 @@ bubbleSortBtn.addEventListener('click', async function(){
     if (isSorted(arr)){
         return;
     } else {
-        sleepTime = 5;
         bubbleSort(arr);
         disableBtns();
     }
@@ -155,7 +157,6 @@ selectionSortBtn.addEventListener('click', async function(){
     if (isSorted(arr)){
         return;
     } else {
-        sleepTime = 50;
         selectionSort(arr);
         disableBtns();
     }
@@ -165,7 +166,6 @@ insertionSortBtn.addEventListener('click', async function(){
     if (isSorted(arr)){
         return;
     } else {
-        sleepTime = 2;
         insertionSort(arr);
         disableBtns();
     }
@@ -183,6 +183,7 @@ function disableBtns(){
     selectionSortBtn.disabled = true;
     insertionSortBtn.disabled = true;
     slider.disabled = true;
+    speedSlider.disabled = true;
 }
 
 function enableBtns(){
@@ -190,6 +191,7 @@ function enableBtns(){
     selectionSortBtn.disabled = false;
     insertionSortBtn.disabled = false;
     slider.disabled = false;
+    speedSlider.disabled = false;
 }
 
 
