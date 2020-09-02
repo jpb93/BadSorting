@@ -27,7 +27,13 @@ slider.oninput = function() {
     update();
 }
 
+function isSorted(a) {
+    for (let i = 0; i < a.length - 1; i++){
+        if (a[i] > a [i + 1]) return false;
+    }
 
+    return true;
+}
 
 function shuffle(a) {
     for (let i = a.length - 1; i > 0; i--) {
@@ -136,21 +142,33 @@ function sleep(ms) {
 }
 
 bubbleSortBtn.addEventListener('click', async function(){
-    sleepTime = 5;
-    bubbleSort(arr);
-    disableBtns();
+    if (isSorted(arr)){
+        return;
+    } else {
+        sleepTime = 5;
+        bubbleSort(arr);
+        disableBtns();
+    }
 });
 
 selectionSortBtn.addEventListener('click', async function(){
-    sleepTime = 50;
-    selectionSort(arr);
-    disableBtns();
+    if (isSorted(arr)){
+        return;
+    } else {
+        sleepTime = 50;
+        selectionSort(arr);
+        disableBtns();
+    }
 });
 
 insertionSortBtn.addEventListener('click', async function(){
-    sleepTime = 2;
-    insertionSort(arr);
-    disableBtns();
+    if (isSorted(arr)){
+        return;
+    } else {
+        sleepTime = 2;
+        insertionSort(arr);
+        disableBtns();
+    }
 });
 
 resetBtn.addEventListener('click', function() {
