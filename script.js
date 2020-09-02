@@ -1,11 +1,17 @@
+const canv = document.getElementById("canvas");
+const ctx = canv.getContext("2d");
+const slider = document.getElementById("barSlider");
+const output = document.getElementById('numBars');
 
-let canv = document.getElementById("canvas");
-let ctx = canv.getContext("2d");
-let slider = document.getElementById("barSlider");
-let output = document.getElementById('numBars');
-output.innerHTML = slider.value;
+const bubbleSortBtn = document.getElementById('bubbleSort');
+const selectionSortBtn = document.getElementById('selectionSort');
+const insertionSortBtn = document.getElementById('insertionSort');
+const resetBtn = document.getElementById('reset');
+
 const width = canv.width;
 const height = canv.height;
+
+output.innerHTML = slider.value;
 let barNumber = slider.value;
 let arr = [];
 let barWidth = width / barNumber;
@@ -38,8 +44,6 @@ function createArray(){
     shuffle(arr);
 
 }
-
-
 
 function update(){
     gap = 0;
@@ -131,43 +135,42 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-document.getElementById('bubbleSort').addEventListener('click', async function(){
+bubbleSortBtn.addEventListener('click', async function(){
     sleepTime = 5;
     bubbleSort(arr);
     disableBtns();
 });
 
-document.getElementById('selectionSort').addEventListener('click', async function(){
+selectionSortBtn.addEventListener('click', async function(){
     sleepTime = 50;
     selectionSort(arr);
     disableBtns();
 });
 
-document.getElementById('insertionSort').addEventListener('click', async function(){
+insertionSortBtn.addEventListener('click', async function(){
     sleepTime = 2;
     insertionSort(arr);
     disableBtns();
 });
 
-document.getElementById('reset').addEventListener('click', function() {
-    enableBtns();
+resetBtn.addEventListener('click', function() {
     arr = []
     createArray();
+    enableBtns();
     update();
-    resetIndices();
 });
 
 function disableBtns(){
-    document.getElementById('bubbleSort').disabled = true;
-    document.getElementById('selectionSort').disabled = true;
-    document.getElementById('insertionSort').disabled = true;
+    bubbleSortBtn.disabled = true;
+    selectionSortBtn.disabled = true;
+    insertionSortBtn.disabled = true;
     slider.disabled = true;
 }
 
 function enableBtns(){
-    document.getElementById('bubbleSort').disabled = false;
-    document.getElementById('selectionSort').disabled = false;
-    document.getElementById('insertionSort').disabled = false;
+    bubbleSortBtn.disabled = false;
+    selectionSortBtn.disabled = false;
+    insertionSortBtn.disabled = false;
     slider.disabled = false;
 }
 
