@@ -50,6 +50,8 @@ async function bubbleSort(unsortedArray) {
             }
         }
     }
+
+    enableBtns();
 }
 
 async function selectionSort(unsortedArray) {
@@ -65,6 +67,7 @@ async function selectionSort(unsortedArray) {
         await swap(unsortedArray, x, minimum);
 
     }
+    enableBtns();
 }
 
 async function insertionSort(unsortedArray){
@@ -82,6 +85,7 @@ async function insertionSort(unsortedArray){
     }
 
     update();
+    enableBtns();
 }
 
 async function swap(arr, i, j) {
@@ -105,27 +109,40 @@ function sleep(ms) {
 }
 
 document.getElementById('bubbleSort').addEventListener('click', async function(){
-    console.log("clicked");
     sleepTime = 5;
     bubbleSort(arr);
+    disableBtns();
 });
 
 document.getElementById('selectionSort').addEventListener('click', async function(){
-    console.log("clicked");
     sleepTime = 50;
     selectionSort(arr);
+    disableBtns();
 });
 
 document.getElementById('insertionSort').addEventListener('click', async function(){
     sleepTime = 2;
     insertionSort(arr);
+    disableBtns();
 });
 
 document.getElementById('reset').addEventListener('click', function() {
+    enableBtns();
     arr = []
     createArray();
     update();
 });
 
+function disableBtns(){
+    document.getElementById('bubbleSort').disabled = true;
+    document.getElementById('selectionSort').disabled = true;
+    document.getElementById('insertionSort').disabled = true;
+}
+
+function enableBtns(){
+    document.getElementById('bubbleSort').disabled = false;
+    document.getElementById('selectionSort').disabled = false;
+    document.getElementById('insertionSort').disabled = false;
+}
 createArray();
 update();
