@@ -34,7 +34,6 @@ slider.oninput = function() {
 speedSlider.oninput = function(){
     speedOutput.innerHTML = this.value + ' ms';
     sleepTime = this.value;
-
 }
 
 function isSorted(a) {
@@ -52,13 +51,12 @@ function shuffle(a) {
     }
     return a;
 }
+
 function createArray(){
     for (let i = 0; i < barNumber; i++){
-        //arr[i] = Math.floor(Math.random() * Math.floor(300)) + 10;
         arr[i] = (i + 1) * (height/barNumber);
     }
     shuffle(arr);
-
 }
 
 function update(){
@@ -114,7 +112,6 @@ async function insertionSort(unsortedArray){
         let toInsert = unsortedArray[i];
 
         while ((j > 0) && (unsortedArray[j - 1] > toInsert)) {
-            //unsortedArray[j] = unsortedArray[j - 1];
             await insertSwap(unsortedArray, j, j - 1);
             j--;
         }
@@ -127,8 +124,6 @@ async function insertionSort(unsortedArray){
 }
 
 async function swap(arr, i, j) {
-    indexOne = i;
-    indexTwo = j;
     await sleep(sleepTime);
     let temp = arr[i];
     arr[i] = arr[j];
@@ -195,7 +190,6 @@ function enableBtns(){
     slider.disabled = false;
     speedSlider.disabled = false;
 }
-
 
 createArray();
 update();
