@@ -55,7 +55,7 @@ function shuffle(a) {
 function createArray(){
     for (let i = 0; i < barNumber; i++){
         //arr[i] = Math.floor(Math.random() * Math.floor(300)) + 10;
-        arr[i] = i*3 + 1;
+        arr[i] = (i + 1) * (height/barNumber);
     }
     shuffle(arr);
 
@@ -127,6 +127,8 @@ async function insertionSort(unsortedArray){
 }
 
 async function swap(arr, i, j) {
+    indexOne = i;
+    indexTwo = j;
     await sleep(sleepTime);
     let temp = arr[i];
     arr[i] = arr[j];
