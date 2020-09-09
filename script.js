@@ -1,3 +1,5 @@
+
+
 const canv = document.getElementById("canvas");
 const ctx = canv.getContext("2d");
 const slider = document.getElementById("barSlider");
@@ -8,6 +10,7 @@ const speedOutput = document.getElementById('barSpeed');
 const bubbleSortBtn = document.getElementById('bubbleSort');
 const selectionSortBtn = document.getElementById('selectionSort');
 const insertionSortBtn = document.getElementById('insertionSort');
+//const mergeSortBtn = document.getElementById('mergeSort');
 const resetBtn = document.getElementById('reset');
 
 const width = canv.width;
@@ -76,6 +79,7 @@ function createBars() {
 }
 
 async function bubbleSort(unsortedArray) {
+    startStopwatch();
     let isSorted = false;
     while (!isSorted){
         isSorted = true;
@@ -88,9 +92,11 @@ async function bubbleSort(unsortedArray) {
     }
 
     enableBtns();
+    endTime = Date.now()
 }
 
 async function selectionSort(unsortedArray) {
+    startStopwatch();
     for (let x = 0; x < unsortedArray.length; x++) {
         let minimum = x;
 
@@ -104,9 +110,11 @@ async function selectionSort(unsortedArray) {
 
     }
     enableBtns();
+    endTime = Date.now()
 }
 
 async function insertionSort(unsortedArray){
+    startStopwatch();
     for (let i = 1; i < unsortedArray.length; i++){
         let j = i;
         let toInsert = unsortedArray[i];
@@ -121,7 +129,9 @@ async function insertionSort(unsortedArray){
 
     update();
     enableBtns();
+    endTime = Date.now()
 }
+
 
 async function swap(arr, i, j) {
     await sleep(sleepTime);
@@ -168,12 +178,41 @@ insertionSortBtn.addEventListener('click', async function(){
     }
 });
 
+
 resetBtn.addEventListener('click', function() {
+    startStopwatch();
+    endTime = Date.now();
+    startTime = Date.now();
+    stopwatch.textContent = "Time: 0s";
     arr = []
     createArray();
     enableBtns();
     update();
 });
+
+let endTime = null; // set non-null to kill stopwatch
+let startTime = null;
+const startStopwatch = (() => {
+  function paintStopwatch (hInterval) {
+    if (startTime !== null) {
+      if (endTime === null) {
+        stopwatch.textContent = `Time: ${(Date.now() - startTime) / 1000}s`;
+        //`Time: ${(Date.now() - startTime) / 1000}s`
+      } else {
+        stopwatch.textContent = `Time: ${(endTime - startTime) / 1000}s`;
+        startTime = null;
+      }
+    } else {
+      clearInterval(hInterval);
+    }
+  }
+  return () => {
+    [startTime, endTime] = [Date.now(), null];
+    const hInterval = setInterval(() => paintStopwatch(hInterval), 10);
+  }
+})()
+
+
 
 function disableBtns(){
     bubbleSortBtn.disabled = true;
